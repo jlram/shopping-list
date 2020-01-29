@@ -1,6 +1,6 @@
 {
-  "short_name": "Lista de la Compra",
-  "name": "Tu lista de la compra donde quieras",
+  "short_name": "Shopping cart",
+  "name": "Shopping cart",
   "icons": [
     {
       "src": "favicon.ico",
