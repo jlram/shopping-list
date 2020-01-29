@@ -24,7 +24,8 @@ export default function TodoList(props: any): JSX.Element{
                         {props.todos.map((todo: ITodo, index: number) => (
                             <Grid container key={index}>
                                 <Grid item xs={10} >
-                                    <Typography variant="h5" color="textSecondary" gutterBottom style={{ textDecoration: todo.complete ? 'line-through' : '' }} onClick={() => props.complete(index)}>
+                                    <Typography variant="h5" color="textSecondary" gutterBottom style={{ textDecoration: todo.complete ? 'line-through' : ''
+                                    , color: todo.complete ? 'grey': 'black' }} onClick={() => props.complete(index)}>
                                         {todo.text}
                                     </Typography>
                                 </Grid>
