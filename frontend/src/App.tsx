@@ -35,8 +35,6 @@ export default function App(): JSX.Element{
   }
 
   const addTodo = (title:string) => {
-    setTodos([...todos, {id: null, title: title, is_completed: false}])
-
     axios.post('http://127.0.0.1:8000/api/', {
       title: title,
       is_completed: false
@@ -48,7 +46,7 @@ export default function App(): JSX.Element{
       console.log(error + 'a');
     });
 
-
+    fetchDataAction()
   }
 
   const complete = (index: number): void => {
@@ -56,9 +54,14 @@ export default function App(): JSX.Element{
     setTodos([...todos])
   }
 
-  const remove = (index: number): void => {
+  const remove = (index: number, id: number): void => {
     todos.splice(index, 1);
     setTodos([...todos])
+
+    axios.delete(`http://127.0.0.1:8000/api/${id}/`);
+
+    //fetchDataAction()
+
   }
 
   const fetchDataAction = async() => {

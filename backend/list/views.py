@@ -6,6 +6,7 @@ from rest_framework import status
 
 from .models import ListItem
 from .serializers import ListItemSerializer
+from rest_framework import generics
 
 
 class ListItems(generics.ListCreateAPIView):
@@ -18,3 +19,8 @@ class ListItems(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DetailItem(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ListItem.objects.all()
+    serializer_class = ListItemSerializer

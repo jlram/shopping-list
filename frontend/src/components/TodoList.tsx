@@ -31,7 +31,7 @@ export default function TodoList(props: any): JSX.Element{
                                 <Grid item xs={2}>
                                     {
                                     (index + 1) === props.todos.length ?
-                                        <IconButton aria-label="delete" color="secondary" onClick={() => props.delete(index)}>
+                                        <IconButton aria-label="delete" color="secondary" onClick={() => props.delete(index, todo.id)}>
                                             <DeleteIcon />
                                         </IconButton>
                                         :  '' 
