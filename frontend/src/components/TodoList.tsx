@@ -5,16 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {Store} from '../Store'
 
 interface ITodo {
-    text: string
-    complete: boolean
+    id: number
+    title: string
+    is_completed: boolean
 }
   
 export default function TodoList(props: any): JSX.Element{
-
-    const {state, dispatch} = React.useContext(Store)
 
     return (
         <Grid container spacing={1} style={{ marginTop: '15px' }}>
@@ -24,9 +22,9 @@ export default function TodoList(props: any): JSX.Element{
                         {props.todos.map((todo: ITodo, index: number) => (
                             <Grid container key={index}>
                                 <Grid item xs={10} >
-                                    <Typography variant="h5" color="textSecondary" gutterBottom style={{ textDecoration: todo.complete ? 'line-through' : ''
-                                    , color: todo.complete ? 'grey': 'black' }} onClick={() => props.complete(index)}>
-                                        {todo.text}
+                                    <Typography variant="h5" color="textSecondary" gutterBottom style={{ textDecoration: todo.is_completed ? 'line-through' : ''
+                                    , color: todo.is_completed ? 'grey': 'black' }} onClick={() => props.complete(index)}>
+                                        {todo.title}
                                     </Typography>
                                 </Grid>
                                 

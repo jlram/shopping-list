@@ -1,38 +1,35 @@
-import React , { Fragment, useState, useEffect, KeyboardEvent, useContext } from 'react';
+import React , { Fragment, useState, useEffect, KeyboardEvent} from 'react';
 import './App.css';
 import { Grid, TextField, Fab } from '@material-ui/core';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import TodoList from './components/TodoList'
-import {Store} from './Store'
 
 
 interface ITodo {
-  text: string
-  complete: boolean
+  id: number
+  title: string
+  is_completed: boolean
 }
 
 export default function App(): JSX.Element{
-
-  const {state, dispatch} = React.useContext(Store)
 
   const [value, setValue] = useState('');
   const [todos, setTodos] = useState<ITodo[]>([]);
   
   useEffect(() => {
 
-    var array = JSON.parse(localStorage.getItem("todos")!);
-    if (array === null) {
-      setTodos([])
-    } else {
-      setTodos(array)
-    }
+    // var array = JSON.parse(localStorage.getItem("todos")!);
+    // if (array === null) {
+    //   setTodos([])
+    // } else {
+    //   setTodos(array)
+    // }
 
     fetchDataAction()
 
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify([...todos]))
   });
 
   const handleSubmit = () => {
@@ -48,39 +45,32 @@ export default function App(): JSX.Element{
     }
   }
 
-  const addTodo = (text:string) => {
-    setTodos([...todos, {text: text, complete: false}])
-    localStorage.setItem('todos', JSON.stringify([...todos]))
+  const addTodo = (title:string) => {
+    setTodos([...todos, {id: 0, title: title, is_completed: false}])
   }
 
   const complete = (index: number): void => {
-    todos[index].complete = !todos[index].complete
+    todos[index].is_completed = !todos[index].is_completed
     setTodos([...todos])
-    localStorage.setItem('todos', JSON.stringify([...todos]))
   }
 
   const remove = (index: number): void => {
     todos.splice(index, 1);
     setTodos([...todos])
-    localStorage.setItem('todos', JSON.stringify([...todos]))
   }
 
   const fetchDataAction = async() => {
-    const data = await fetch('https://api.tvmaze.com/singlesearch/shows?q=rick-&-morty&embed=episodes')
+    const data = await fetch('http://127.0.0.1:8000/api')
     const dataJSON = await data.json();
 
-    console.log('done')
+    console.log(dataJSON)
 
-    return dispatch({
-      type: 'FETCH',
-      payload: dataJSON._embedded.episodes
-    })
+    setTodos(dataJSON)
   }
 
 
   return (
     <Fragment>
-      {console.log(state)}
       <Grid container spacing={6}>
         <Grid item xs={12} style={{textAlign: 'center'}}>
         </Grid>
