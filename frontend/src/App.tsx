@@ -3,10 +3,11 @@ import './App.css';
 import { Grid, TextField, Fab } from '@material-ui/core';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import TodoList from './components/TodoList'
+import axios from 'axios'
 
 
 interface ITodo {
-  id: number
+  id: any
   title: string
   is_completed: boolean
 }
@@ -17,20 +18,8 @@ export default function App(): JSX.Element{
   const [todos, setTodos] = useState<ITodo[]>([]);
   
   useEffect(() => {
-
-    // var array = JSON.parse(localStorage.getItem("todos")!);
-    // if (array === null) {
-    //   setTodos([])
-    // } else {
-    //   setTodos(array)
-    // }
-
     fetchDataAction()
-
-  }, []);
-
-  useEffect(() => {
-  });
+  }, []); // componentDidMount()
 
   const handleSubmit = () => {
     if (value !== '') {
@@ -46,7 +35,20 @@ export default function App(): JSX.Element{
   }
 
   const addTodo = (title:string) => {
-    setTodos([...todos, {id: 0, title: title, is_completed: false}])
+    setTodos([...todos, {id: null, title: title, is_completed: false}])
+
+    axios.post('http://127.0.0.1:8000/api/', {
+      title: title,
+      is_completed: false
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error + 'a');
+    });
+
+
   }
 
   const complete = (index: number): void => {
@@ -62,8 +64,6 @@ export default function App(): JSX.Element{
   const fetchDataAction = async() => {
     const data = await fetch('http://127.0.0.1:8000/api')
     const dataJSON = await data.json();
-
-    console.log(dataJSON)
 
     setTodos(dataJSON)
   }
