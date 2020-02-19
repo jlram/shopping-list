@@ -15,12 +15,12 @@ interface ITodo {
 export default function TodoList(props: any): JSX.Element{
 
     return (
-        <Grid container spacing={1} style={{ marginTop: '15px' }}>
+        <Grid container spacing={1} style={{ marginTop: '15px', height: '450px', overflow: 'scroll' }}>
             <Grid item xs={12} >
-                <Card variant="outlined" style={{    width: '95%'}}>
+                <Card style={{    width: '95%'}}>
                     <CardContent>
                         {props.todos.map((todo: ITodo, index: number) => (
-                            <Grid container key={index}>
+                            <Grid container key={index} style={{ marginBottom: '5px'}}>
                                 <Grid item xs={10} >
                                     <Typography variant="h5" color="textSecondary" gutterBottom style={{ textDecoration: todo.is_completed ? 'line-through' : ''
                                     , color: todo.is_completed ? 'grey': 'black' }} onClick={() => props.complete(index)}>

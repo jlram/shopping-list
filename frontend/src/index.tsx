@@ -6,6 +6,6 @@ import {StoreProvider} from './Store'
 
 ReactDOM.render(
     <StoreProvider>
-        <App />
+        <App/>
     </StoreProvider>
 , document.getElementById('root'));

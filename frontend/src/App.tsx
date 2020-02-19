@@ -1,7 +1,7 @@
 import React , { Fragment, useState, useEffect, KeyboardEvent} from 'react';
 import './App.css';
 import { Grid, TextField, Fab } from '@material-ui/core';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 import TodoList from './components/TodoList'
 import axios from 'axios'
 
@@ -21,16 +21,28 @@ export default function App(): JSX.Element{
     fetchDataAction()
   }, []); // componentDidMount()
 
-  const handleSubmit = () => {
-    if (value !== '') {
-      addTodo(value);
-      setValue('');  
-    }
+  const handleClickFAB = () => {
+    console.log(todos)
+
+    todos.map((todo: ITodo, index: number) => (
+    axios.put(`http://127.0.0.1:8000/api/${todo.id}/`, {
+      is_completed: todo.is_completed
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    ))
   }
 
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     if(event.key === 'Enter'){
-      handleSubmit();
+      if (value !== '') {
+        addTodo(value);
+        setValue('');  
+      }
     }
   }
 
@@ -59,9 +71,6 @@ export default function App(): JSX.Element{
     setTodos([...todos])
 
     axios.delete(`http://127.0.0.1:8000/api/${id}/`);
-
-    //fetchDataAction()
-
   }
 
   const fetchDataAction = async() => {
@@ -80,17 +89,16 @@ export default function App(): JSX.Element{
       </Grid>
       <Grid container spacing={3} style={{ marginTop: '60px' }}>
         <Grid item xs={8} style={{textAlign: 'center'}}>
-          <TextField id="outlined-basic" label="Añade un producto" variant="outlined" value={value} onChange={e => setValue(e.target.value)} onKeyPress={handleKeyPress}/>  
+          <TextField id="outlined-basic" label="Añade un producto" variant="outlined" value={value} onChange={e => setValue(e.target.value)} onKeyPress={handleKeyPress} style={{ width: 280 }}/>  
         </Grid>
-        <Grid item xs={4}>
-        <Fab color="primary" aria-label="add" onClick={handleSubmit}>
-            <AddShoppingCartIcon />
-          </Fab>
 
-        </Grid>
       </Grid>
 
       <TodoList todos={todos} complete={complete} delete={remove}/>
+
+        <Fab color="secondary" aria-label="add" size="large" onClick={handleClickFAB} style={{ position: 'fixed', right: 20, bottom: 50 }}>
+            <DoneAllIcon />
+          </Fab>
 
     </Fragment>
 
